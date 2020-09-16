@@ -429,6 +429,26 @@ task Sort {
     }
 }
 
+task TabixList {
+    input {
+        File inputFile
+        File indexFile
+        String dockerImage = "quay.io/biocontainers/tabix:0.2.6--ha92aebf_0" 
+    }
+    
+    command {
+        tabix -l ~{inputFile}
+    }
+
+    output {
+        Array[String] chromosomes = read_lines(stdout())
+    }
+
+    runtime {
+        docker: dockerImage
+    }
+}
+
 task Tabix {
     input {
         File inputFile
